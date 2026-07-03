@@ -1,0 +1,69 @@
+{
+  "name": "Re:Bin · 버리는 순간, 보입니다",
+  "short_name": "Re:Bin",
+  "description": "IoT 기반 폐기물 데이터·자원순환 인프라. 시민의 감축 노력을 측정·자산화·환원하는 봉투 너머의 시민 인프라.",
+  "id": "/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#2B8159",
+  "theme_color": "#2B8159",
+  "lang": "ko",
+  "dir": "ltr",
+  "categories": ["lifestyle", "utilities", "productivity"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/screen-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "홈 화면 — 이번 달 배출량과 환경 임팩트"
+    },
+    {
+      "src": "screenshots/screen-eco.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "환경 임팩트 — 비용 절감 + CO2 + 나무"
+    },
+    {
+      "src": "screenshots/screen-guide.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "작동 방식 — 4단계 IoT 워크플로우"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "배출하기",
+      "short_name": "배출",
+      "description": "쓰레기 배출 기록",
+      "url": "./index.html#emit",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "내역",
+      "short_name": "내역",
+      "description": "지난 배출 기록 보기",
+      "url": "./index.html#history",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "포인트",
+      "short_name": "포인트",
+      "description": "에코포인트 확인",
+      "url": "./index.html#points",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

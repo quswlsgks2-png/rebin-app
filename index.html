@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.rebin.kr">
+<meta name="theme-color" content="#2B8159" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1411" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Re:Bin">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="버리는 순간, 보입니다 — IoT 기반 폐기물 데이터·자원순환 인프라. 시민의 감축 노력을 측정·자산화·환원하는 봉투 너머의 시민 인프라.">
+
+<!-- Open Graph (소셜 공유) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Re:Bin · 버리는 순간, 보입니다">
+<meta property="og:description" content="IoT 기반 폐기물 데이터·자원순환 인프라 — 봉투 너머의 시민 인프라">
+<meta property="og:image" content="icon-512.png">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Re:Bin · 버리는 순간, 보입니다">
+<meta name="twitter:description" content="IoT 기반 폐기물 데이터·자원순환 인프라 — 봉투 너머의 시민 인프라">
+
+<title>Re:Bin · 버리는 순간, 보입니다</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+
+<!-- FOUC 방지: 첫 페인트 전에 테마 적용 -->
+<script>
+(function(){
+  try {
+    var raw = localStorage.getItem('rebin_theme');
+    var theme = raw ? JSON.parse(raw) : 'auto';
+    var dark = theme === 'dark' || (theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  } catch(e) {
+    document.documentElement.dataset.theme = 'light';
+  }
+})();
+</script>
+</head>
+<body>
+
+<!-- ============== LOGO (실제 원본 PNG 그대로 사용) ============== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="rb-logo" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <image href="logo.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid meet"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============== SPLASH ============== -->
+<div class="splash" id="splash">
+  <div class="splash-logo-wrap">
+    <svg class="splash-logo" aria-hidden="true"><use href="#rb-logo"/></svg>
+  </div>
+  <div class="splash-tit">Re:Bin</div>
+  <div class="splash-sub">버리는 순간, 보입니다</div>
+  <div class="splash-spinner"></div>
+</div>
+
+<!-- ============== ONBOARDING (5-STEP WIZARD) ============== -->
+<div class="onboarding" id="onboarding">
+  <!-- Step indicator -->
+  <div class="ob-stepper" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+    <div class="ob-step-dot active" data-step="1"><span class="dot-num">1</span><span class="dot-label">환영</span></div>
+    <div class="ob-step-line"></div>
+    <div class="ob-step-dot" data-step="2"><span class="dot-num">2</span><span class="dot-label">지역</span></div>
+    <div class="ob-step-line"></div>
+    <div class="ob-step-dot" data-step="3"><span class="dot-num">3</span><span class="dot-label">세대</span></div>
+    <div class="ob-step-line"></div>
+    <div class="ob-step-dot" data-step="4"><span class="dot-num">4</span><span class="dot-label">동의</span></div>
+    <div class="ob-step-line"></div>
+    <div class="ob-step-dot" data-step="5"><span class="dot-num">5</span><span class="dot-label">카드</span></div>
+  </div>
+
+  <!-- ===== STEP 1: 환영 ===== -->
+  <div class="ob-step" id="ob-step-1" data-active="true">
+    <div class="ob-hero">
+      <svg class="ob-logo" aria-hidden="true"><use href="#rb-logo"/></svg>
+      <div class="ob-tit">Re:Bin에 오신 것을 환영합니다</div>
+      <div class="ob-sub">측정 → 자산화 → 환원 → 참여<br>봉투 너머의 시민 인프라</div>
+    </div>
+    <div class="ob-form">
+      <div class="ob-stage">
+        <div class="ob-stage-head">🌱 파일럿 단계 안내</div>
+        <div class="ob-stage-body">현재는 무게 측정·기록 기능만 제공됩니다.<br>실제 과금 시스템은 단지 도입 후 활성화됩니다.</div>
+      </div>
+      <div class="ob-welcome-list">
+        <div class="ob-welcome-item">
+          <div class="ob-w-ico">📍</div>
+          <div class="ob-w-text"><b>지역 선택</b><br>거주 지자체의 종량제 가격 자동 적용</div>
+        </div>
+        <div class="ob-welcome-item">
+          <div class="ob-w-ico">🏠</div>
+          <div class="ob-w-text"><b>세대 정보</b><br>아파트 단지·동·호수 입력</div>
+        </div>
+        <div class="ob-welcome-item">
+          <div class="ob-w-ico">🪪</div>
+          <div class="ob-w-text"><b>인증 카드 발급</b><br>실물카드 또는 휴대폰 NFC 등록</div>
+        </div>
+      </div>
+    </div>
+    <div class="ob-foot">
+      <button type="button" class="btn-primary" id="ob-next-1">시작하기 →</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: 지역 선택 ===== -->
+  <div class="ob-step" id="ob-step-2">
+    <div class="ob-form-hero">
+      <div class="ob-form-tit">📍 거주 지역 선택</div>
+      <div class="ob-form-sub">지자체별 종량제 봉투 가격이 다르기 때문에 정확한 절감 효과를 계산하려면 지역 정보가 필요합니다</div>
+    </div>
+    <div class="ob-form">
+      <div class="ob-field">
+        <label class="ob-label" for="ob-sido">시도</label>
+        <select class="ob-input" id="ob-sido">
+          <option value="">선택해주세요</option>
+        </select>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label" for="ob-sigungu">시군구</label>
+        <select class="ob-input" id="ob-sigungu" disabled>
+          <option value="">먼저 시도를 선택하세요</option>
+        </select>
+      </div>
+      <div class="ob-region-info" id="ob-region-info" hidden>
+        <div class="ob-ri-row">
+          <span class="ob-ri-label">📦 20L 종량제봉투</span>
+          <span class="ob-ri-value" id="ob-ri-price">—</span>
+        </div>
+        <div class="ob-ri-row">
+          <span class="ob-ri-label">🇰🇷 전국 평균</span>
+          <span class="ob-ri-value" id="ob-ri-avg">—</span>
+        </div>
+        <div class="ob-ri-foot">
+          출처 · 공공데이터포털 「전국종량제봉투가격표준데이터」 (2026년 기준)
+        </div>
+      </div>
+    </div>
+    <div class="ob-foot ob-foot-row">
+      <button type="button" class="btn-secondary" id="ob-prev-2">← 이전</button>
+      <button type="button" class="btn-primary" id="ob-next-2" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: 세대 정보 ===== -->
+  <div class="ob-step" id="ob-step-3">
+    <div class="ob-form-hero">
+      <div class="ob-form-tit">🏠 세대 정보</div>
+      <div class="ob-form-sub">아파트 단지와 세대원 수를 알려주시면<br>가구당 적정 배출 한도를 자동 계산합니다</div>
+    </div>
+    <div class="ob-form">
+      <div class="ob-field">
+        <label class="ob-label" for="ob-apt">아파트명</label>
+        <input class="ob-input" id="ob-apt" placeholder="예) 현대아파트" autocomplete="off" maxlength="30"/>
+      </div>
+      <div class="ob-row">
+        <div class="ob-field">
+          <label class="ob-label" for="ob-dong">동</label>
+          <input class="ob-input" id="ob-dong" placeholder="101" autocomplete="off" inputmode="numeric" maxlength="6"/>
+        </div>
+        <div class="ob-field">
+          <label class="ob-label" for="ob-ho">호수</label>
+          <input class="ob-input" id="ob-ho" placeholder="302" autocomplete="off" inputmode="numeric" maxlength="6"/>
+        </div>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label" for="ob-members">세대원 수</label>
+        <select class="ob-input" id="ob-members">
+          <option value="1">1인</option>
+          <option value="2">2인</option>
+          <option value="3">3인</option>
+          <option value="4" selected>4인</option>
+          <option value="5">5인</option>
+          <option value="6">6인</option>
+          <option value="7">7인</option>
+          <option value="8">8인</option>
+          <option value="9">9인</option>
+          <option value="10">10인</option>
+        </select>
+      </div>
+      <div class="ob-baseline-preview" id="ob-baseline-preview">
+        <span class="ob-bp-icon">🌱</span>
+        <span>월 한도 <b id="ob-bp-kg">40kg</b> · 환경부 1인당 평균 9.9kg/월 기준</span>
+      </div>
+    </div>
+    <div class="ob-foot ob-foot-row">
+      <button type="button" class="btn-secondary" id="ob-prev-3">← 이전</button>
+      <button type="button" class="btn-primary" id="ob-next-3">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 4: 정보수집 동의 ===== -->
+  <div class="ob-step" id="ob-step-4">
+    <div class="ob-form-hero">
+      <div class="ob-form-tit">📋 개인정보 수집 동의</div>
+      <div class="ob-form-sub">개인정보보호법(PIPA)에 따라<br>수집 항목과 이용 목적을 명시합니다</div>
+    </div>
+    <div class="ob-form">
+      <div class="ob-consent-card">
+        <div class="ob-cc-tit">✓ 수집 항목</div>
+        <div class="ob-cc-body">
+          • 거주 지역 (시도·시군구)<br>
+          • 아파트명, 동·호수<br>
+          • 세대원 수 (1~10명)<br>
+          • RFID 카드 ID (자동 발급)<br>
+          • 배출 무게·시간 (사용 시 누적)
+        </div>
+      </div>
+      <div class="ob-consent-card">
+        <div class="ob-cc-tit">✓ 보관 위치</div>
+        <div class="ob-cc-body">
+          현재(파일럿): <b style="color:var(--g500)">사용자 기기 (브라우저)</b><br>
+          정식 도입: 단지 통합 서버 + 지자체 시스템 연동
+        </div>
+      </div>
+      <div class="ob-consent-card">
+        <div class="ob-cc-tit">✓ 이용 목적</div>
+        <div class="ob-cc-body">
+          • 세대별 배출량 측정·통계<br>
+          • 절감 효과 계산 및 환경 임팩트 표시<br>
+          • 공정한 종량제 부과 (정식 도입 시)
+        </div>
+      </div>
+      <div class="ob-privacy">
+        💡 외부 광고 또는 제3자 제공은 일체 없습니다. 동의 후에도 언제든 설정 → 데이터 초기화에서 모든 정보를 삭제할 수 있습니다.
+      </div>
+      <label class="ob-consent" for="ob-consent">
+        <input type="checkbox" id="ob-consent"/>
+        <span class="ob-consent-text">
+          위 내용에 동의합니다
+          <button type="button" class="ob-terms-link" id="ob-terms-link">전체 약관 보기</button>
+        </span>
+      </label>
+    </div>
+    <div class="ob-foot ob-foot-row">
+      <button type="button" class="btn-secondary" id="ob-prev-4">← 이전</button>
+      <button type="button" class="btn-primary" id="ob-next-4" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 5: 카드 발급 ===== -->
+  <div class="ob-step" id="ob-step-5">
+    <div class="ob-form-hero">
+      <div class="ob-form-tit">🪪 인증 카드 발급</div>
+      <div class="ob-form-sub">스마트 쓰레기통 사용을 위해<br>본인 인증 수단을 선택해주세요</div>
+    </div>
+    <div class="ob-form">
+      <div class="ob-card-option" data-card-type="mobile_nfc">
+        <div class="ob-card-radio">
+          <input type="radio" name="ob-card" id="ob-card-mobile" value="mobile_nfc" checked/>
+        </div>
+        <div class="ob-card-body">
+          <div class="ob-card-tit">📱 휴대폰 NFC 태그</div>
+          <div class="ob-card-desc">즉시 사용 가능 · 휴대폰을 쓰레기통에 태그</div>
+          <div class="ob-card-tags">
+            <span class="ob-card-tag ok">✓ 무료</span>
+            <span class="ob-card-tag ok">✓ 즉시 발급</span>
+            <span class="ob-card-tag warn">! NFC 지원 휴대폰만</span>
+          </div>
+        </div>
+      </div>
+      <div class="ob-card-option" data-card-type="physical">
+        <div class="ob-card-radio">
+          <input type="radio" name="ob-card" id="ob-card-physical" value="physical"/>
+        </div>
+        <div class="ob-card-body">
+          <div class="ob-card-tit">🪪 Re:Bin 실물카드</div>
+          <div class="ob-card-desc">우편 발송 7일 소요 · 휴대폰 없이 사용</div>
+          <div class="ob-card-tags">
+            <span class="ob-card-tag ok">✓ 휴대폰 불필요</span>
+            <span class="ob-card-tag ok">✓ 가족 공유 가능</span>
+            <span class="ob-card-tag warn">! 발급 7일 소요</span>
+          </div>
+        </div>
+      </div>
+      <div class="ob-card-option" data-card-type="physical_actual">
+        <div class="ob-card-radio">
+          <input type="radio" name="ob-card" id="ob-card-actual" value="physical_actual"/>
+        </div>
+        <div class="ob-card-body">
+          <div class="ob-card-tit">🔧 시연용 카드 직접 입력</div>
+          <div class="ob-card-desc">PN532 시리얼 모니터에서 hex UID 확인 후 입력</div>
+          <div class="ob-card-tags">
+            <span class="ob-card-tag warn">! 개발자/시연 모드</span>
+          </div>
+          <div id="ob-actual-rfid-area" style="display:none; margin-top:10px;">
+            <input type="text" id="ob-actual-rfid"
+                   placeholder="04A52BC3D2 (8-14자 hex)"
+                   maxlength="20"
+                   style="width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:8px; font-family:monospace; font-size:14px; text-transform:uppercase;"
+                   oninput="this.value = this.value.toUpperCase().replace(/[^0-9A-F]/g,'')"/>
+            <small style="display:block; color:#888; margin-top:4px; font-size:11px;">※ Arduino IDE 시리얼 모니터 → 카드 태그 시 출력되는 UID</small>
+          </div>
+        </div>
+      </div>
+      <div class="ob-card-info">
+        <div class="ob-ci-row">
+          <span class="ob-ci-icon">🆔</span>
+          <span><b>RFID 카드 ID</b>는 회원가입 즉시 자동 발급됩니다.<br>실물카드 선택 시에도 휴대폰 NFC로 임시 사용 가능합니다.</span>
+        </div>
+      </div>
+    </div>
+    <div class="ob-foot ob-foot-row">
+      <button type="button" class="btn-secondary" id="ob-prev-5">← 이전</button>
+      <button type="button" class="btn-primary" id="ob-submit">완료하고 시작하기 🌱</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== INSTALL BANNER ============== -->
+<div class="install-banner" id="install-banner">
+  <div class="install-ico">📲</div>
+  <div class="install-info">
+    <div class="install-tit">홈 화면에 추가</div>
+    <div class="install-desc">앱처럼 사용할 수 있습니다</div>
+  </div>
+  <button type="button" class="install-btn" id="install-btn">설치</button>
+  <button type="button" class="install-close" id="install-close" aria-label="닫기">×</button>
+</div>
+
+<!-- ============== MAIN APP ============== -->
+<div class="app" id="app-main" hidden>
+  <div class="statusbar"></div>
+
+  <div class="pilot-banner" id="pilot-banner">
+    <span class="pilot-pill">파일럿</span>
+    <span class="pilot-text"><b>측정·기록</b> 단계 · 실제 과금 없음</span>
+    <button type="button" class="pilot-close" id="pilot-close" aria-label="배너 닫기">×</button>
+  </div>
+
+  <main class="views">
+
+    <!-- ① HOME -->
+    <section class="view on" id="v-home" aria-label="홈">
+      <header class="hdr">
+        <button class="hdr-logo" id="hdr-logo" aria-label="Re:Bin 홈" type="button">
+          <svg class="hdr-logo-svg" aria-hidden="true"><use href="#rb-logo"/></svg>
+          <span class="hdr-logo-txt">Re:Bin</span>
+        </button>
+        <div class="hdr-actions">
+          <button type="button" class="hdr-btn" id="btn-share" aria-label="공유" title="공유">
+            <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M12 3v12m0-12L8 7m4-4l4 4M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="hdr-btn" data-route="settings" aria-label="설정" title="설정">
+            <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="home-hero">
+        <div class="home-greet" id="home-greet">안녕하세요 👋</div>
+        <div class="home-apt" id="home-apt">—</div>
+        <div class="home-stats">
+          <div class="hstat">
+            <div class="hstat-lbl">이번 달 배출량</div>
+            <div class="hstat-val"><span id="home-kg">0.0</span><span class="hstat-unit">kg</span></div>
+            <div class="hstat-sub" id="home-kg-base">—</div>
+            <div class="hstat-badge neutral" id="home-trend">데이터 수집 중</div>
+          </div>
+          <div class="hstat hstat-pts">
+            <div class="hstat-lbl">에코포인트</div>
+            <div class="hstat-val"><span id="home-pts">0</span><span class="hstat-unit">P</span></div>
+            <div class="hstat-sub">파일럿 누적</div>
+            <div class="hstat-badge gold" id="home-challenge">🎯 챌린지</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-tit">이번 달 주차별 <span class="pill pill-g" id="home-month-lbl">—</span></div>
+      <div class="card card-chart">
+        <div id="week-chart" class="week-chart"></div>
+        <div class="avg-line" id="avg-line"></div>
+      </div>
+
+      <div class="sec-tit">시간대별 배출 패턴 <span class="pill pill-g">최근 3개월</span></div>
+      <div class="card card-chart" id="hourly-card">
+        <div id="hourly-chart" class="hourly-chart"></div>
+        <div class="hourly-insight" id="hourly-insight">데이터가 쌓이면 패턴이 보여요</div>
+      </div>
+
+      <div class="sec-tit">환경 임팩트 
+        <span class="eco-toggle">
+          <button class="eco-tab active" data-eco-tab="month" type="button" onclick="window.setEcoMode && window.setEcoMode('month')">이번 달</button>
+          <button class="eco-tab" data-eco-tab="total" type="button" onclick="window.setEcoMode && window.setEcoMode('total')">누적</button>
+        </span>
+      </div>
+      <div class="card eco-card" id="eco-card">
+        <div class="eco-main">
+          <div class="eco-stat">
+            <div class="eco-stat-num" id="eco-co2">—</div>
+            <div class="eco-stat-lbl">CO2 절감 (kg)</div>
+          </div>
+          <div class="eco-divider"></div>
+          <div class="eco-stat">
+            <div class="eco-stat-num" id="eco-tree">—</div>
+            <div class="eco-stat-lbl">🌳 나무 그루 효과</div>
+          </div>
+        </div>
+        <div class="eco-msg" id="eco-msg">측정 데이터가 쌓이면 임팩트를 보여드릴게요</div>
+        <div class="eco-foot">환산 기준 · 일반쓰레기 1kg ≈ CO2 0.5kg (한국 실측 Tier 3) · 나무 1그루(소나무 30년생) 연 6.6kg 흡수 (산림청 표준)</div>
+      </div>
+
+      <div class="sec-tit">최근 배출 <button class="sec-more" id="btn-history-more" type="button">전체보기 →</button></div>
+      <div id="home-feed" class="home-feed"></div>
+      <div class="bottom-pad"></div>
+    </section>
+
+    <!-- ② EMIT -->
+    <section class="view" id="v-emit" aria-label="배출하기">
+      <header class="hdr">
+        <div class="emit-type-btn" id="btn-type" aria-label="배출 종류 (생활폐기물 전용)" style="cursor:default;pointer-events:none;">
+          <span id="emit-type-name">🗑️ 일반쓰레기</span>
+          <span class="chevron">›</span>
+        </div>
+        <button type="button" class="hdr-btn hdr-btn-cancel" id="btn-emit-cancel" aria-label="취소" title="취소">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+      </header>
+
+      <div class="emit-top" id="emit-top">
+        <div class="rfid-area" id="rfid-area" role="button" tabindex="0" aria-label="RFID 카드 인식 (또는 화면 터치)">
+          <div class="rfid-out"></div>
+          <div class="rfid-mid"></div>
+          <div class="rfid-in" id="rfid-in">
+            <span class="rfid-icon">📳</span>
+          </div>
+        </div>
+        <div class="emit-cta" id="emit-cta" aria-live="polite" aria-atomic="true">RFID 카드 또는 화면 터치</div>
+        <div class="emit-sub" id="emit-sub">카드를 인식부에 가져다 대세요</div>
+      </div>
+
+      <div class="pad" id="emit-main">
+        <div class="card">
+          <div class="card-tit">배출 단계</div>
+          <ol class="steps">
+            <li class="step"><div class="step-bub" id="s1">1</div><div class="step-info"><div class="step-tit">RFID 인증</div><div class="step-desc" id="d1">카드를 태그하세요</div></div></li>
+            <li class="step"><div class="step-bub" id="s2">2</div><div class="step-info"><div class="step-tit">투입구 개방</div><div class="step-desc" id="d2">카드 인증 후 자동 개방</div></div></li>
+            <li class="step"><div class="step-bub" id="s3">3</div><div class="step-info"><div class="step-tit">무게 자동 측정</div><div class="step-desc" id="d3">로드셀 ±50g 정밀 계측</div></div></li>
+            <li class="step"><div class="step-bub" id="s4">4</div><div class="step-info"><div class="step-tit">데이터 전송</div><div class="step-desc" id="d4">NB-IoT · 서버 기록</div></div></li>
+          </ol>
+        </div>
+
+        <div class="card card-demo" id="demo-section" hidden>
+          <div class="demo-tag">🧪 데모 모드 — 직접 무게 입력</div>
+          <div class="inp-wrap">
+            <input class="inp-num" id="wt-inp" type="number" inputmode="decimal" value="2.4" min="0.1" max="50" step="0.1"/>
+            <div class="inp-unit">kg</div>
+          </div>
+          <div class="inp-hint">실제 환경: 로드셀이 자동 측정 (0.1 ~ 50 kg)</div>
+        </div>
+        <button type="button" class="btn-primary" id="emit-btn" disabled>RFID 인증 후 사용 가능</button>
+      </div>
+
+      <div class="pad" id="emit-result" hidden>
+        <div class="result-card">
+          <div class="result-ico">✓</div>
+          <div class="result-tit">배출 완료!</div>
+          <div class="result-desc">버리는 순간, 기록됐습니다</div>
+          <div class="result-big" id="res-kg-big">0.0 kg</div>
+          <div class="result-acc" id="res-acc">—</div>
+        </div>
+        <div class="card">
+          <div class="card-tit">측정 상세</div>
+          <div class="row"><span class="rl">측정 무게</span><span class="rv g" id="res-kg">—</span></div>
+          <div class="row"><span class="rl">이번 달 누적</span><span class="rv" id="res-tot">—</span></div>
+          <div class="row"><span class="rl">단지 평균 대비</span><span class="rv" id="res-apt">—</span></div>
+          <div class="row"><span class="rl">에코포인트 적립</span><span class="rv gold" id="res-pts">+5 P</span></div>
+          <div class="row"><span class="rl">데이터 전송</span><span class="rv g">완료 ✓</span></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn-secondary" id="btn-emit-again" type="button">한 번 더 배출</button>
+          <button type="button" class="btn-primary" id="btn-emit-confirm">확인</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ HISTORY -->
+    <section class="view" id="v-history" aria-label="배출 내역">
+      <header class="hdr">
+        <div class="hdr-tit">배출 내역</div>
+        <button type="button" class="hdr-btn" id="btn-year" aria-label="연간 리포트" title="연간 리포트">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="2"/><path d="M4 9h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </header>
+      <div class="mth-chips" id="mth-chips"></div>
+      <div class="stat-grid">
+        <div class="sgrid"><div class="sgrid-lbl">총 배출량</div><div class="sgrid-val g" id="hist-total">0.0 kg</div></div>
+        <div class="sgrid"><div class="sgrid-lbl">배출 횟수</div><div class="sgrid-val" id="hist-cnt">0 회</div></div>
+        <div class="sgrid"><div class="sgrid-lbl">전월 대비</div><div class="sgrid-val" id="hist-change">—</div></div>
+      </div>
+      <div id="hist-list" class="hist-list"></div>
+      <div class="bottom-pad"></div>
+    </section>
+
+    <!-- ④ POINTS -->
+    <section class="view" id="v-points" aria-label="에코포인트">
+      <header class="hdr">
+        <div class="hdr-tit">에코포인트</div>
+        <button type="button" class="hdr-btn" id="btn-goal" aria-label="목표 설정" title="목표 설정">
+          <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+        </button>
+      </header>
+      <div class="pts-hero">
+        <div class="pts-lbl">총 적립 포인트</div>
+        <div class="pts-num"><span id="pts-num">0</span><span class="pts-unit">P</span></div>
+        <div class="pts-hint">파일럿 단계 — 정식 도입 시 사용처 확정</div>
+      </div>
+      <div class="pad">
+        <div class="card" id="pts-list">
+          <div class="card-tit">포인트 적립 현황</div>
+          <div class="src-item">
+            <div class="src-ico ico-emit">🏅</div>
+            <div class="src-info"><div class="src-name">배지 보너스</div><div class="src-desc">배출 마일스톤·감량 배지 획득 시 적립</div></div>
+            <div class="src-pt" id="pts-emission">0 P</div>
+          </div>
+          <div class="src-item">
+            <div class="src-ico ico-carbon">🌍</div>
+            <div class="src-info"><div class="src-name">탄소포인트제</div><div class="src-desc">에너지 절감 연동 (정식 도입 시)</div></div>
+            <div class="src-pt muted" id="pts-carbon">— P</div>
+          </div>
+          <div class="src-item">
+            <div class="src-ico ico-ch">🎯</div>
+            <div class="src-info"><div class="src-name">개인 베스트 챌린지</div><div class="src-desc">본인 평균 대비 5/10/15/20% 감량 시 +500~2,000P</div></div>
+            <div class="src-pt" id="pts-challenge">0 P</div>
+          </div>
+          <div class="src-row" id="pts-garden-row" hidden>
+            <div class="src-ico">🌍</div>
+            <div class="src-info"><div class="src-name">정원 물방울 교환</div><div class="src-desc">지구 달성 후 1💧=1P</div></div>
+            <div class="src-pt" id="pts-garden">0 P</div>
+          </div>
+          <div class="src-row" id="pts-raffle-row" hidden>
+            <div class="src-ico">🎟️</div>
+            <div class="src-info"><div class="src-name">후원 챌린지 응모권</div><div class="src-desc">에코포인트 사용</div></div>
+            <div class="src-pt" id="pts-raffle">0 P</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-tit">획득 배지 <span class="card-tit-sub" id="badge-count">0 / 7</span></div>
+          <div class="badge-grid" id="pts-badges"></div>
+        </div>
+
+        <div class="card challenge-card">
+          <div class="card-tit-w">이번 달 챌린지</div>
+          <div class="row row-w"><span class="rl">다음 단계 목표</span><span class="rv" id="ch-target">—</span></div>
+          <div class="row row-w"><span class="rl">현재 달성</span><span class="rv" id="ch-achieved">—</span></div>
+          <div class="row row-w"><span class="rl">차등 보너스</span><span class="rv gold" id="ch-bonus">+1,000P / +2,000P / +3,000P</span></div>
+          <div class="row row-w"><span class="rl">남은 기간</span><span class="rv" id="ch-days">—</span></div>
+        </div>
+
+        <!-- v2.0: 단지 공동 환원 -->
+        <div class="card">
+          <div class="card-tit">🏘️ 단지 공동 환원</div>
+          <div class="coop-body">
+            개인 환원과 별도로 단지 전체를 위한 공동 환원이 함께 운영됩니다.
+          </div>
+          <ul class="coop-list">
+            <li>단지당 연 <b>100~300만원</b> 공동시설 보수·운영비</li>
+            <li>재원 — 후원사 ESG 협약 + 탄소 크레딧 매출 일부</li>
+            <li>놀이터·체육시설 개선, 단지 행사, 공동 전기료 보조 등</li>
+            <li>입주자대표회의 의결로 사용처 결정</li>
+          </ul>
+        </div>
+
+        <div class="card roadmap-card">
+          <div class="card-tit">📍 포인트 사용 로드맵</div>
+          <div class="rm-step">
+            <div class="rm-bub rm-cur">●</div>
+            <div class="rm-info">
+              <div class="rm-tit">2026 파일럿</div>
+              <div class="rm-desc">측정·기록만, 포인트는 누적 표시</div>
+            </div>
+          </div>
+          <div class="rm-step">
+            <div class="rm-bub">2027</div>
+            <div class="rm-info">
+              <div class="rm-tit">관리비 차감</div>
+              <div class="rm-desc">월 1P = 1원 사용 가능 · 월 한도 3,000P (예시 비율, 협약 후 확정)</div>
+            </div>
+          </div>
+          <div class="rm-step">
+            <div class="rm-bub">2028</div>
+            <div class="rm-info">
+              <div class="rm-tit">지역 상품권 교환</div>
+              <div class="rm-desc">지자체 협약 시 종량제 봉투·온누리상품권 등</div>
+            </div>
+          </div>
+          <div class="rm-step">
+            <div class="rm-bub">2029+</div>
+            <div class="rm-info">
+              <div class="rm-tit">탄소포인트제 통합</div>
+              <div class="rm-desc">에너지·물·쓰레기 통합 포인트 적립</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-pad"></div>
+    </section>
+
+    <!-- ⑤ GUIDE -->
+    <section class="view" id="v-guide" aria-label="분리배출 가이드">
+      <header class="hdr"><div class="hdr-tit">분리배출 가이드</div><div style="width:36px"></div></header>
+      <div class="sec-tit">🔄 Re:Bin 작동 방식</div>
+      <div class="pad">
+        <div class="workflow-card">
+          <div class="wf-step">
+            <div class="wf-num">1</div>
+            <div class="wf-body">
+              <div class="wf-tit">🪪 RFID/앱 인증</div>
+              <div class="wf-desc">스마트 쓰레기통에 카드 또는 휴대폰 NFC를 태그</div>
+            </div>
+          </div>
+          <div class="wf-arrow">↓</div>
+          <div class="wf-step">
+            <div class="wf-num">2</div>
+            <div class="wf-body">
+              <div class="wf-tit">⚖️ 투입 + 자동 측정</div>
+              <div class="wf-desc">로드셀이 g 단위로 무게 측정 (±50g 정확도)</div>
+            </div>
+          </div>
+          <div class="wf-arrow">↓</div>
+          <div class="wf-step">
+            <div class="wf-num">3</div>
+            <div class="wf-body">
+              <div class="wf-tit">☁️ 클라우드 전송</div>
+              <div class="wf-desc">NB-IoT로 가구·동·시간대별 데이터 즉시 전송</div>
+            </div>
+          </div>
+          <div class="wf-arrow">↓</div>
+          <div class="wf-step">
+            <div class="wf-num">4</div>
+            <div class="wf-body">
+              <div class="wf-tit">📱 앱 자동 갱신</div>
+              <div class="wf-desc">배출량·감량률·포인트가 실시간 업데이트</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-tit">♻️ 4단계 자기강화 사이클</div>
+      <div class="pad">
+        <div class="workflow-card">
+          <div class="wf-step">
+            <div class="wf-num">1</div>
+            <div class="wf-body">
+              <div class="wf-tit">📏 측정 (Measurement)</div>
+              <div class="wf-desc">줄인 일반쓰레기와 CO₂ 감축 효과를 IoT 센서로 정밀 측정·기록</div>
+            </div>
+          </div>
+          <div class="wf-arrow">↓</div>
+          <div class="wf-step">
+            <div class="wf-num">2</div>
+            <div class="wf-body">
+              <div class="wf-tit">💎 자산화 (Asset Creation)</div>
+              <div class="wf-desc">측정된 환경 기여를 ESG 데이터·탄소 크레딧·재활용 자원 가치로 변환</div>
+            </div>
+          </div>
+          <div class="wf-arrow">↓</div>
+          <div class="wf-step">
+            <div class="wf-num">3</div>
+            <div class="wf-body">
+              <div class="wf-tit">🎁 환원 (Reward)</div>
+              <div class="wf-desc">감축 결과에 따른 차등 포인트·친환경 제품·단지 공동 운영비로 환원</div>
+            </div>
+          </div>
+          <div class="wf-arrow">↓</div>
+          <div class="wf-step">
+            <div class="wf-num">4</div>
+            <div class="wf-body">
+              <div class="wf-tit">🤝 참여 (Engagement)</div>
+              <div class="wf-desc">"쓰레기 줄이기 챌린지"가 다음 사이클의 동기를 키우는 참여 엔진</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-tit">📖 분리배출 카테고리</div>
+      <div class="pad">
+        <div class="cat-grid">
+          <button class="cat" data-cat="paper" type="button"><div class="cat-ico">📦</div><div class="cat-name">종이류</div><div class="cat-cnt">5가지</div></button>
+          <button class="cat" data-cat="plastic" type="button"><div class="cat-ico">🧴</div><div class="cat-name">플라스틱</div><div class="cat-cnt">4가지</div></button>
+          <button class="cat" data-cat="glass" type="button"><div class="cat-ico">🍶</div><div class="cat-name">유리병</div><div class="cat-cnt">3가지</div></button>
+          <button class="cat" data-cat="metal" type="button"><div class="cat-ico">🥫</div><div class="cat-name">캔·고철</div><div class="cat-cnt">4가지</div></button>
+        </div>
+      </div>
+      <div class="sec-tit">🚫 일반쓰레기 투입 금지</div>
+      <div class="pad pad-tight">
+        <div class="no-item">🔋 전지류 — 주민센터 수거함</div>
+        <div class="no-item">💊 의약품 — 약국 수거함</div>
+        <div class="no-item">🖥️ 소형 가전 — 무상방문수거 (1599-0903)</div>
+        <div class="no-item">🪑 대형 폐기물 — 스티커 구매 후 배출</div>
+      </div>
+      <div class="bottom-pad"></div>
+    </section>
+
+    <!-- ⑥ SETTINGS -->
+    <!-- ⑥-b GARDEN (감축정원 · v2.4.0) -->
+    <section class="view" id="v-garden" aria-label="감축정원">
+      <header class="hdr">
+        <button class="hdr-logo" type="button" data-route="home" aria-label="홈으로">
+          <svg class="hdr-logo-svg" aria-hidden="true"><use href="#rb-logo"/></svg>
+          <span class="hdr-logo-txt">감축정원</span>
+        </button>
+        <div class="gd-hdr-badges">
+          <span class="gd-badge" title="연속 감축 달 — 물방울 보너스 배수">🔥 연속 <span id="gd-streak">0</span>달</span>
+          <span class="gd-badge water" title="보유 물방울">💧 <span id="gd-drops">0</span></span>
+        </div>
+      </header>
+
+      <!-- 정원 씬 -->
+      <div class="gd-scene-wrap" id="gd-scene-wrap">
+        <svg class="gd-scene" viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="감축정원 풍경">
+          <defs>
+            <symbol id="gd-art-seed" viewBox="0 0 100 100">
+              <ellipse cx="50" cy="82" rx="30" ry="9" fill="#6B4529"/>
+              <ellipse cx="50" cy="79" rx="24" ry="7" fill="#8A5A36"/>
+              <path d="M50 28 C 66 34 70 52 62 66 C 56 74 44 74 38 66 C 30 52 34 34 50 28 Z" fill="#A9713F" stroke="#234D36" stroke-width="3.4" stroke-linejoin="round"/>
+              <path d="M50 34 C 46 44 46 56 50 64" stroke="#7C4E26" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M56 40 q6 5 4 14" stroke="#C68B52" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+            </symbol>
+            <symbol id="gd-art-sprout" viewBox="0 0 100 100">
+              <ellipse cx="50" cy="84" rx="32" ry="9" fill="#6B4529"/>
+              <path d="M24 84 Q 50 66 76 84 Z" fill="#8A5A36" stroke="#234D36" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M50 76 L50 46" stroke="#2C7A4B" stroke-width="5" stroke-linecap="round"/>
+              <path d="M50 58 C 30 56 22 40 30 30 C 46 32 52 46 50 58 Z" fill="#4CAF6D" stroke="#234D36" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M46 52 Q 38 44 34 36" stroke="#2C7A4B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+              <path d="M50 50 C 70 46 78 30 70 20 C 54 22 46 38 50 50 Z" fill="#7CC98F" stroke="#234D36" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M54 44 Q 62 34 68 26" stroke="#2C7A4B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            </symbol>
+            <symbol id="gd-art-tree" viewBox="0 0 100 100">
+              <ellipse cx="50" cy="88" rx="30" ry="7" fill="#6B4529" opacity=".7"/>
+              <path d="M46 88 L46 62 L54 62 L54 88 Z" fill="#8A5A36" stroke="#234D36" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M50 8 C 66 8 76 18 76 30 C 86 32 90 46 82 54 C 84 64 74 72 64 68 C 58 76 42 76 36 68 C 26 72 16 64 18 54 C 10 46 14 32 24 30 C 24 18 34 8 50 8 Z" fill="#4CAF6D" stroke="#234D36" stroke-width="3.4" stroke-linejoin="round"/>
+              <circle cx="38" cy="34" r="5" fill="#2C7A4B"/><circle cx="60" cy="28" r="6" fill="#2C7A4B"/>
+              <circle cx="66" cy="48" r="5" fill="#2C7A4B"/><circle cx="44" cy="52" r="4.5" fill="#2C7A4B"/>
+              <circle cx="30" cy="48" r="4" fill="#7CC98F"/><circle cx="54" cy="42" r="4" fill="#7CC98F"/>
+            </symbol>
+            <symbol id="gd-art-pine" viewBox="0 0 100 100">
+              <path d="M46 92 L46 78 L54 78 L54 92 Z" fill="#8A5A36" stroke="#234D36" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M50 6 L68 32 L60 32 L74 54 L64 54 L80 78 L20 78 L36 54 L26 54 L40 32 L32 32 Z" fill="#2C7A4B" stroke="#234D36" stroke-width="3.2" stroke-linejoin="round"/>
+              <path d="M42 30 L58 30" stroke="#4CAF6D" stroke-width="3" stroke-linecap="round"/>
+              <path d="M38 52 L62 52" stroke="#4CAF6D" stroke-width="3" stroke-linecap="round"/>
+              <path d="M32 74 L68 74" stroke="#4CAF6D" stroke-width="3" stroke-linecap="round"/>
+            </symbol>
+            <symbol id="gd-art-mtn" viewBox="0 0 100 100">
+              <path d="M6 84 L40 24 L64 62 L74 46 L96 84 Z" fill="#4C8F5F" stroke="#234D36" stroke-width="3.4" stroke-linejoin="round"/>
+              <path d="M40 24 L32 40 L38 37 L44 46 L52 38 Z" fill="#EAF6EF" stroke="#234D36" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M74 46 L68 56 L74 53 L80 60 L84 54 Z" fill="#EAF6EF" stroke="#234D36" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M28 60 q8 -4 14 2" stroke="#7CC98F" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M56 70 q8 -4 14 2" stroke="#7CC98F" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </symbol>
+            <symbol id="gd-art-earth" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="38" fill="#4FA3E0" stroke="#234D36" stroke-width="3.4"/>
+              <path d="M28 34 q12 -12 26 -6 q10 4 4 14 q-8 12 -24 8 q-14 -4 -6 -16Z" fill="#4CAF6D" stroke="#234D36" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M62 56 q14 -2 18 8 q2 10 -10 12 q-14 2 -18 -8 q-2 -8 10 -12Z" fill="#2C7A4B" stroke="#234D36" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M34 66 q8 -2 10 6 q0 8 -9 7 q-9 -2 -8 -8 q2 -5 7 -5Z" fill="#7CC98F" stroke="#234D36" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M30 26 a34 34 0 0 1 34 -6" stroke="#BFE3F7" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>
+            </symbol>
+          </defs>
+
+          <rect class="gd-sky" id="gd-sky" x="0" y="0" width="400" height="310" fill="#DFF3E9"/>
+          <g class="gd-sun"><circle cx="342" cy="56" r="26" fill="#F0D28A" opacity=".9"/><circle cx="342" cy="56" r="17" fill="#E8B95C"/></g>
+          <g class="gd-cloud" opacity=".9"><ellipse cx="70" cy="56" rx="30" ry="12" fill="#fff"/><ellipse cx="95" cy="50" rx="22" ry="10" fill="#fff"/></g>
+          <g class="gd-cloud c2" opacity=".7"><ellipse cx="40" cy="98" rx="24" ry="9" fill="#fff"/><ellipse cx="60" cy="94" rx="16" ry="7" fill="#fff"/></g>
+          <path d="M0 236 Q 200 212 400 236 L400 310 L0 310 Z" fill="#9CCDA9"/>
+          <path d="M0 256 Q 200 236 400 256 L400 310 L0 310 Z" fill="#7FBB8F"/>
+          <g stroke="#2C7A4B" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".85">
+            <path d="M70 252 q-2 -8 -6 -11 M70 252 q1 -9 6 -12 M70 252 q0 -10 0 -13"/>
+            <path d="M330 250 q-2 -8 -6 -11 M330 250 q1 -9 6 -12"/>
+            <path d="M120 262 q-2 -7 -5 -9 M120 262 q2 -8 5 -10"/>
+            <path d="M282 262 q-2 -7 -5 -9 M282 262 q2 -8 5 -10"/>
+          </g>
+          <ellipse cx="200" cy="248" rx="60" ry="15" fill="#8A5A36"/>
+          <ellipse cx="200" cy="245" rx="53" ry="12" fill="#6B4529"/>
+
+          <g class="gd-stage-layer" data-stage="0"><use href="#gd-art-seed" x="160" y="158" width="80" height="80"/></g>
+          <g class="gd-stage-layer" data-stage="1"><g class="gd-sway"><use href="#gd-art-sprout" x="150" y="140" width="100" height="100"/></g></g>
+          <g class="gd-stage-layer" data-stage="2">
+            <g class="gd-sway"><use href="#gd-art-tree" x="132" y="112" width="136" height="136"/></g>
+            <text class="gd-butterfly" x="268" y="170" font-size="15">🦋</text>
+          </g>
+          <g class="gd-stage-layer" data-stage="3">
+            <g class="gd-sway" style="animation-delay:-1.4s"><use href="#gd-art-pine" x="86" y="156" width="94" height="94"/></g>
+            <g class="gd-sway"><use href="#gd-art-pine" x="152" y="122" width="126" height="126"/></g>
+            <g class="gd-sway" style="animation-delay:-2.6s"><use href="#gd-art-pine" x="234" y="160" width="90" height="90"/></g>
+            <text class="gd-butterfly" x="300" y="150" font-size="15">🦋</text>
+            <text class="gd-butterfly" x="90" y="140" font-size="13" style="animation-delay:-4s">🐦</text>
+          </g>
+          <g class="gd-stage-layer" data-stage="4">
+            <use href="#gd-art-mtn" x="60" y="72" width="200" height="200"/>
+            <use href="#gd-art-mtn" x="216" y="128" width="140" height="140" opacity=".92"/>
+            <g class="gd-sway" style="animation-delay:-1s"><use href="#gd-art-pine" x="66" y="204" width="52" height="52"/></g>
+            <g class="gd-sway" style="animation-delay:-2.2s"><use href="#gd-art-pine" x="316" y="208" width="46" height="46"/></g>
+            <text class="gd-butterfly" x="320" y="120" font-size="14">🦅</text>
+          </g>
+          <g class="gd-stage-layer" data-stage="5">
+            <g class="gd-earth-float"><use href="#gd-art-earth" x="128" y="70" width="144" height="144"/></g>
+            <g fill="#F0D28A">
+              <circle class="gd-spark" cx="110" cy="90" r="3"/><circle class="gd-spark s2" cx="298" cy="76" r="2.6"/>
+              <circle class="gd-spark s3" cx="276" cy="150" r="2.2"/><circle class="gd-spark s2" cx="124" cy="160" r="2.2"/>
+            </g>
+            <g class="gd-sway"><use href="#gd-art-pine" x="86" y="204" width="50" height="50"/></g>
+            <g class="gd-sway" style="animation-delay:-2.2s"><use href="#gd-art-pine" x="266" y="204" width="50" height="50"/></g>
+          </g>
+        </svg>
+
+        <div class="gd-stage-info">
+          <div class="gd-si-num" id="gd-si-num">1</div>
+          <div class="gd-si-txt">
+            <div class="gd-si-name"><span id="gd-si-kr">씨앗</span><span class="en" id="gd-si-en">Seed</span></div>
+            <div class="gd-si-desc" id="gd-si-desc">작은 실천의 시작</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pad">
+        <!-- 성장 게이지 -->
+        <div class="gd-grow-top">
+          <span class="gd-grow-label">성장 게이지</span>
+          <span class="gd-grow-next" id="gd-grow-next">—</span>
+        </div>
+        <div class="gd-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="gd-bar-box">
+          <div class="gd-bar-fill" id="gd-bar-fill"></div>
+        </div>
+        <div class="gd-grow-auto">✨ 게이지가 가득 차면 <b>자동으로 다음 단계</b>로 진화해요 · 남은 물은 이월</div>
+
+        <button class="gd-btn-water" id="gd-btn-water" type="button">
+          💧 물주기 <span class="sub" id="gd-water-sub">(꾹 누르면 연속으로!)</span>
+        </button>
+
+        <!-- 최고 등급 달성 후: 물방울 → 포인트 교환 (1💧 = 1P) -->
+        <div class="gd-exchange" id="gd-exchange" hidden>
+          <div class="gd-ex-info">
+            <div class="gd-ex-tit">🌍 지구 달성! 남은 물방울을 포인트로</div>
+            <div class="gd-ex-desc">교환 가능 <b id="gd-ex-amt">0</b>💧 → <b id="gd-ex-pts">0</b>P <span class="gd-ex-rate">(1💧 = 1P)</span></div>
+          </div>
+          <button class="gd-ex-btn" id="gd-ex-btn" type="button">모두 교환</button>
+        </div>
+
+        <!-- 물방울 적립 현황 (실측 연동) -->
+        <div class="sec-tit">물방울 적립 현황 <span class="pill pill-g">실측 자동</span></div>
+        <div class="card gd-earn-card">
+          <div class="gd-earn-rows" id="gd-earn-rows">
+            <div class="gd-earn-row"><span>이번 달 배출</span><b id="gd-cur-kg">—</b></div>
+            <div class="gd-earn-row"><span>베이스라인 (첫 3개월 평균)</span><b id="gd-base-kg">—</b></div>
+            <div class="gd-earn-row hl"><span id="gd-proj-lbl">월말 예상 적립</span><b id="gd-proj-drops">—</b></div>
+          </div>
+          <div class="gd-earn-note" id="gd-earn-note">물방울은 완료된 달의 실제 감축량(베이스라인 대비)으로 자동 적립됩니다 · 감축 1kg = 💧10</div>
+          <div class="gd-streak-note" id="gd-streak-note" hidden>🔥 <span id="gd-streak-note-txt"></span></div>
+        </div>
+
+        <!-- 로드맵 -->
+        <div class="sec-tit">자연 · 감축 등급 <span class="pill pill-g">성장의 순서</span></div>
+        <div class="card">
+          <div class="gd-rm-track" id="gd-rm-track"><div class="gd-rm-fill" id="gd-rm-fill"></div></div>
+        </div>
+
+        <!-- 접이식 적립 규칙 안내 -->
+        <details class="gd-rules">
+          <summary>📖 물방울 적립 규칙 보기</summary>
+          <div class="gd-rules-body">
+            <div class="gd-rule-row"><span>적립 기준</span><b>완료된 달의 실제 감축량 (베이스라인 대비)</b></div>
+            <div class="gd-rule-row"><span>기본 적립</span><b>감축 1kg = 💧10</b></div>
+            <div class="gd-rule-row"><span>연속 감축 보너스</span><b>2달+ ×1.2 · 4달+ ×1.5 · 8달+ ×2.0</b></div>
+            <div class="gd-rule-row"><span>정산 시점</span><b>매달 말 자동 정산 (진행 중인 달 제외)</b></div>
+            <div class="gd-rule-row"><span>성장·진화</span><b>게이지 가득 → 자동 진화 · 남은 물 이월</b></div>
+            <div class="gd-rule-divider"></div>
+            <div class="gd-rule-tit">단계별 필요 성장량 (누적 💧)</div>
+            <div class="gd-rule-tiers">
+              <span>① 씨앗 0</span><span>② 새싹 80</span><span>③ 나무 240</span>
+              <span>④ 숲 520</span><span>⑤ 산 920</span><span>⑥ 지구 1,500</span>
+            </div>
+            <div class="gd-rule-foot">베이스라인 = 설치 후 첫 3개월 평균 배출량 · 배출 기록이 수정되면 적립이 자동 재계산됩니다</div>
+          </div>
+        </details>
+
+        <!-- 후원 챌린지 — 등급 특전 -->
+        <div class="sec-tit">🎁 후원 챌린지 <span class="pill pill-g">등급 특전</span></div>
+        <div class="gd-raffle-intro">등급이 오를수록 응모할 수 있는 후원 경품이 넓어져요. 응모권은 에코포인트로 구매합니다.</div>
+        <div id="gd-raffle-list"></div>
+        <div class="gd-raffle-note">파일럿 기간의 응모는 모의 기록이며, 정식 도입 시 후원사 협약에 따라 실제 경품 응모로 전환됩니다.</div>
+
+        <!-- 통계 -->
+        <div class="gd-stats">
+          <div class="gd-stat"><div class="v" id="gd-st-saved">0.0kg</div><div class="k">누적 감축</div></div>
+          <div class="gd-stat"><div class="v" id="gd-st-co2">0.0kg</div><div class="k">CO2 감축</div></div>
+          <div class="gd-stat"><div class="v" id="gd-st-tree">0.00그루</div><div class="k">나무 효과</div></div>
+        </div>
+        <div class="gd-foot">베이스라인 대비 감축 기준 · CO2=감축×0.5 · 나무=CO2÷6.6 (산림청 표준)</div>
+        <div class="bottom-pad"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-settings" aria-label="설정">
+      <header class="hdr"><div class="hdr-tit">설정</div><div style="width:36px"></div></header>
+      <div class="prof-sec">
+        <div class="avatar"><svg aria-hidden="true"><use href="#rb-logo"/></svg></div>
+        <div>
+          <div class="prof-apt" id="set-apt">—</div>
+          <div class="prof-unit" id="set-ho">—</div>
+          <div class="prof-tag" id="set-tag">—</div>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-lbl">세대 정보</div>
+        <div class="set-list">
+          <button class="set-item" data-action="changeMembers" type="button"><span class="si-ico">👨‍👩‍👧‍👦</span><span class="si-lbl">세대원 수</span><span class="si-val" id="set-members">—</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="changeAddress" type="button"><span class="si-ico">🏠</span><span class="si-lbl">주소 변경 (이사)</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="showRegion" type="button"><span class="si-ico">📍</span><span class="si-lbl">거주 지역</span><span class="si-val" id="set-region">—</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="manageCard" type="button"><span class="si-ico">🪪</span><span class="si-lbl">인증 카드</span><span class="si-val" id="set-card">—</span><span class="si-arr">›</span></button>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-lbl">감면 혜택 <span class="muted-sm">정식 도입 시 활성화</span></div>
+        <div class="set-list">
+          <button class="set-item" data-action="discountInfant" type="button"><span class="si-ico">👶</span><span class="si-lbl">영아 가구 (24개월 이하)</span><span class="si-val muted">미등록</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="discountMulti" type="button"><span class="si-ico">👨‍👩‍👧‍👦</span><span class="si-lbl">다자녀 가구</span><span class="si-val muted">미등록</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="discountWelfare" type="button"><span class="si-ico">🏥</span><span class="si-lbl">기초생활수급자</span><span class="si-val muted">미등록</span><span class="si-arr">›</span></button>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-lbl">알림 설정</div>
+        <div class="set-list">
+          <button class="set-item set-toggle" data-toggle="pickup" type="button"><span class="si-ico">🔔</span><span class="si-lbl">수거일 알림</span><span class="toggle" id="t-pickup"></span></button>
+          <button class="set-item set-toggle" data-toggle="weekly" type="button"><span class="si-ico">📊</span><span class="si-lbl">주간 배출 리포트</span><span class="toggle" id="t-weekly"></span></button>
+          <button class="set-item set-toggle" data-toggle="challenge" type="button"><span class="si-ico">🎯</span><span class="si-lbl">챌린지 알림</span><span class="toggle" id="t-challenge"></span></button>
+          <button class="set-item set-toggle" data-toggle="push" type="button" id="set-push"><span class="si-ico">📱</span><span class="si-lbl">푸시 알림 <span class="badge-soon">서버 준비중</span></span><span class="toggle" id="t-push"></span></button>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-lbl">앱 환경</div>
+        <div class="set-list">
+          <button class="set-item" data-action="chooseTheme" type="button"><span class="si-ico">🌓</span><span class="si-lbl">테마</span><span class="si-val" id="set-theme">시스템</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="inviteFriend" type="button"><span class="si-ico">🎁</span><span class="si-lbl">친구 초대</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="exportData" type="button"><span class="si-ico">💾</span><span class="si-lbl">데이터 백업 (JSON)</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="importData" type="button"><span class="si-ico">📂</span><span class="si-lbl">데이터 복원</span><span class="si-arr">›</span></button>
+        </div>
+      </div>
+
+      <div class="set-sec">
+        <div class="set-lbl">앱 정보</div>
+        <div class="set-list">
+          <button class="set-item" data-action="contact" type="button"><span class="si-ico">💬</span><span class="si-lbl">1:1 문의</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="about" type="button"><span class="si-ico">ℹ️</span><span class="si-lbl">버전</span><span class="si-val">v2.6.0</span></button>
+          <button class="set-item" data-action="archiveOld" type="button"><span class="si-ico">📦</span><span class="si-lbl">오래된 데이터 정리</span><span class="si-arr">›</span></button>
+          <button class="set-item set-danger" data-action="resetData" type="button"><span class="si-ico">🗑️</span><span class="si-lbl">데이터 초기화</span><span class="si-arr">›</span></button>
+        </div>
+      </div>
+
+      <!-- 개발자/시연 모드 (활성화 시에만 표시) -->
+      <div class="set-sec" id="set-dev-sec" hidden>
+        <div class="set-lbl">🧪 시연 모드 <span class="muted-sm">데모용</span></div>
+        <div class="set-list">
+          <button class="set-item" data-action="sim" type="button"><span class="si-ico">🧪</span><span class="si-lbl">시뮬레이터 열기</span><span class="si-arr">›</span></button>
+          <button class="set-item" data-action="toggleDevMode" type="button"><span class="si-ico">🚪</span><span class="si-lbl">시연 모드 끄기</span><span class="si-arr">›</span></button>
+        </div>
+      </div>
+      <div class="bottom-pad"></div>
+    </section>
+
+  </main>
+
+  <nav class="bnav" aria-label="주 메뉴">
+    <button class="bitem on" data-route="home" aria-label="홈" type="button">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="bitem-lbl">홈</span>
+    </button>
+    <button class="bitem" data-route="emit" aria-label="배출하기" type="button">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M5 7h14l-1 13a2 2 0 01-2 2H8a2 2 0 01-2-2L5 7zM3 7h18M9 4h6v3H9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="bitem-lbl">배출</span>
+    </button>
+    <button class="bitem" data-route="history" aria-label="배출 내역" type="button">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="bitem-lbl">내역</span>
+    </button>
+    <button class="bitem" data-route="points" aria-label="에코포인트" type="button">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 2l2.4 7h7.6l-6.2 4.5 2.4 7.5L12 16.5l-6.2 4.5 2.4-7.5L2 9h7.6L12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="bitem-lbl">포인트</span>
+    </button>
+    <button class="bitem" data-route="garden" aria-label="감축정원" type="button">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 21v-8m0 0c0-3-2.5-5.5-6-5.5 0 3.5 2.5 5.5 6 5.5zm0-2c0-3.5 2.5-6.5 6-6.5 0 4-2.5 6.5-6 6.5zM5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="bitem-lbl">정원</span>
+    </button>
+    <button class="bitem" data-route="guide" aria-label="분리배출 가이드" type="button">
+      <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 6c-1.5-1.4-3.5-2-6-2-1 0-2 .1-3 .4V19c1-.3 2-.4 3-.4 2.5 0 4.5.6 6 2 1.5-1.4 3.5-2 6-2 1 0 2 .1 3 .4V4.4c-1-.3-2-.4-3-.4-2.5 0-4.5.6-6 2zm0 0v14.6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="bitem-lbl">가이드</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- ═══ Re:Scan 모달 (v1.2.6 신규) ═══ -->
+
+
+<script src="rebin-sync.js" defer></script>
+  <script src="data-layer.js"></script>
+<script src="region-data.js"></script>
+<script src="ui.js"></script>
+<script src="garden.js"></script>
+<script src="app.js"></script>
+
+<!-- v1.3.1: 누적 버튼 작동 보장 + 명시적 피드백 + 자동 갱신 -->
+<script>
+(function() {
+  // setEcoMode 즉시 정의 — 캐시/타이밍 무관 작동 보장
+  window.setEcoMode = function(mode) {
+    console.log('[Re:Bin v2.0.0] setEcoMode called:', mode);
+    
+    // 1. 탭 시각 활성화
+    document.querySelectorAll('.eco-tab').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-eco-tab') === mode);
+    });
+    
+    // 2. 진짜 갱신 함수 호출 (mode 인자 전달)
+    if (typeof window._renderEcoImpactReal === 'function') {
+      window._renderEcoImpactReal(mode);
+    } else if (typeof window.refreshGradeAndEco === 'function') {
+      // 직접 _ecoMode 변수에 접근 불가하니 mode를 전역에 저장
+      window._ecoMode = mode;
+      window.refreshGradeAndEco();
+    }
+    
+    // 3. 명시적 사용자 피드백 (작동 확인용)
+    if (typeof window.toast === 'function') {
+      const label = mode === 'total' ? '누적' : '이번 달';
+      window.toast(`${label} 모드로 변경 ✓`, 'info', 1500);
+    }
+  };
+  
+  // DOM 로드 후 직접 바인딩 (3중 안전장치)
+  function bindTabs() {
+    document.querySelectorAll('.eco-tab').forEach(btn => {
+      if (btn.dataset.bound === '1') return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const mode = this.getAttribute('data-eco-tab');
+        if (mode && window.setEcoMode) window.setEcoMode(mode);
+      }, { passive: false });
+    });
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindTabs);
+  } else {
+    bindTabs();
+  }
+  setTimeout(bindTabs, 1000);
+  setTimeout(bindTabs, 3000);  // 추가 안전장치
+
+  // service-worker 자동 갱신 — 새 버전 감지 시 자동 reload
+  if ('serviceWorker' in navigator) {
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      console.log('[SW] 새 버전 감지 → 자동 reload');
+      window.location.reload();
+    });
+  }
+})();
+</script>
+</body>
+</html>
